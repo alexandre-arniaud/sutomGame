@@ -6,6 +6,13 @@
     <h1 class="text-white w-100 text-center mt-5" style="font-weight: 800; font-size: xxx-large">Inscription</h1>
     <div class="card" style="background: none; border: none">
         <div class="card-body">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-danger" role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <form action="" method="post" style="display: flex; flex-direction: column; align-items: center; gap: 50px">
                 {% csrf_token %}
                 <div class="form-floating">

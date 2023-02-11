@@ -102,9 +102,11 @@ function delayedLoop(index, indice, nombre_colonnes, nombre_lignes) {
 }
 
 document.addEventListener('click', (event) => {
-
+    let win = true;
+    let row = 0;
+    let contain_false = [];
     if (event.target.classList.contains("input-lettre")) {
-        console.log(event.target.textContent);
+        // console.log(event.target.textContent);
         const nb_rows = document.getElementsByTagName("tr").length;
         const nb_columns = document.getElementsByTagName("td").length / nb_rows;
 
@@ -126,10 +128,76 @@ document.addEventListener('click', (event) => {
 
                     // Si la touche appuyée est "Enter"
                     if (event.target.textContent === '↲' && document.getElementsByTagName("tr")[i].classList.contains("full_leter")) {
-                        // On récupère le mot écrit par l'utilisateur
-                        let wordUser = getUserWordWritten(i, nb_columns);
                         // On boucle pour chaque colonne de la ligne pour comparer les lettres
                         delayedLoop(0, i, nb_columns, nb_rows);
+
+                        setTimeout(() => {
+                            if (document.getElementsByTagName("tr")[i].children.item(j).classList.contains("bien-place")) {
+                                contain_false.push(true);
+                            } else {
+                                contain_false.push(false);
+                            }
+                        }, 2500);
+
+                        setTimeout(() => {
+                            win = !contain_false.includes(false);
+                        }, 3500);
+
+                        setTimeout(() => {
+                            if (win) {
+                                let array = []
+                                document.querySelector("#state_win").textContent = "Bravo, tu as gagné !";
+                                document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
+                                document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
+                                if (row < 7) {
+                                    for (let h = 1; h < nb_columns + 1; h++) {
+                                        let span = document.createElement("span");
+                                        if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("bien-place")) {
+                                            span.textContent = "🟥";
+                                            array.push("🟥")
+                                        }
+                                        if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("mal-place")) {
+                                            span.textContent = "🟡";
+                                            array.push("🟡");
+                                        }
+                                        if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("non-trouve") ||
+                                            document.getElementsByTagName("tr")[row].children.item(h - 1).classList.length === 0) {
+                                            span.textContent = "🟦";
+                                            array.push("🟦");
+                                        }
+                                        document.querySelector("#game-resume-r-" + (j)).appendChild(span);
+                                    }
+                                    console.log(array)
+                                    row++
+                                    document.querySelector("#modal-container").style.display = 'flex';
+                                }
+
+                                for (let k = 0; k < document.querySelectorAll("option").length ; k++) {
+                                    if (document.querySelectorAll("option")[k].text === motATrouver.toUpperCase()) {
+                                        // console.log(document.querySelectorAll("option")[k].value)
+                                        document.querySelector("#id_word").value = document.querySelectorAll("option")[k].value;
+                                    }
+                                }
+
+                                document.querySelector('#id_user').value = document.querySelector('#idCurrentUser').textContent
+                                document.querySelector('[name=nb_try]').value = (i+1)
+                                document.querySelector('[name=is_win]').checked = true
+
+                                switch (i) {
+                                    case 0: document.querySelector('[name=points]').value = 50;
+                                        break;
+                                    case 1: document.querySelector('[name=points]').value = 40;
+                                        break;
+                                    case 2: document.querySelector('[name=points]').value = 30;
+                                        break;
+                                    case 3: document.querySelector('[name=points]').value = 20;
+                                        break;
+                                    case 4: document.querySelector('[name=points]').value = 10;
+                                        break;
+                                    default: document.querySelector('[name=points]').value = 0;
+                                }
+                            }
+                        }, 5000);
                     }
 
                     // Si la touche appuyée est autre que "Enter" ou "Backspace"
