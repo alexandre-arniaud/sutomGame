@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'play' %}">Jouer</a></li>
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+                <li class="active"><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <section style="display: flex; gap: 15px; align-items: center; position: fixed; top: 25%;">
+        <h1 class="text-white text-left">Liste des mots</h1>
+        <a class="btn btn-info" style="display: flex; align-items: center; justify-content: center; width: 8vw; height: 4vh" href="{% url 'admin_list_mot_create' %}">Ajouter un mot</a>
+        <a class="btn btn-danger" style="display: flex; align-items: center; justify-content: center; width: 8vw; height: 4vh" href="{% url 'home' %}">Retour</a>
+    </section>
+
+
+    <section style="display: block; position: fixed; width: 95%; height: 63%; overflow: auto; top: 35%;">
+        {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Mot</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for object in object_list|dictsort:"mot" %}
+                <tr>
+                    <th scope="row">{{ object.id }}</th>
+                    <td>{{ object.mot|upper }}</td>
+                    <td style="max-width: 30%">
+                        <a class="btn btn-info" style="text-decoration: none; margin-left: 15px; margin-bottom: 5px" href="{% url 'admin_list_mot_update' object.id %}">Modifier le mot</a>
+                        <a class="btn btn-danger" style="text-decoration: none; margin-left: 15px; margin-bottom: 5px" href="{% url 'admin_list_mot_delete' object.id %}">Supprimer le mot</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </section>
+{% endblock %}

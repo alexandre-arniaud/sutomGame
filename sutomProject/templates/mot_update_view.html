@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'play' %}">Jouer</a></li>
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+            <li class="active"><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Administration - Modification du mot</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Modifier le mot</button>
+    </form>
+{% endblock %}

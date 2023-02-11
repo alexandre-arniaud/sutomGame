@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - Mon compte{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'play' %}">Jouer</a></li>
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+                <li><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <h1 class="text-white w-100 text-center mt-5" style="font-weight: 800; font-size: xxx-large">Mon profil</h1>
+    <div class="content-section">
+        <!-- FORM HERE -->
+        <form action="" method="post" style="display: flex; flex-direction: column; align-items: center; gap: 50px; margin-top: 5em">
+            <div class="media" style="display: flex">
+                <img width="256px" height="256px"
+                     class="account-img"
+                     style="border-radius: 20px"
+                     src="{% if user.profile.avatar.url == "/public/user.png" %} /public/avatars/user.png {% else %} {{ user.profile.avatar.url }} {% endif %}"
+                />
+                <section style="display: flex; flex-direction: column; margin-left: 3em">
+                    {% csrf_token %}
+                    <label for="username" style="color: #fff; width: fit-content">{{ u_form.username.label }}</label>
+                    <div class="form-floating form-floating-user">
+                        {{ u_form.username }}
+                    </div>
+                    <label for="password" style="color: #fff; width: fit-content">{{ u_form.email.label }}</label>
+                    <div class="form-floating form-floating-user">
+                        {{ u_form.email }}
+                    </div>
+                    {{ p_form.avatar }}
+                </section>
+            </div>
+
+            <button class="btn btn-primary mx-auto" style="display: flex; font-weight: 700" type="submit">Appliquer les changements</button>
+        </form>
+    </div>
+
+{% endblock %}

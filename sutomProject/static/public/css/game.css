@@ -1,0 +1,134 @@
+:root {
+    --couleur-fond-grille: #0077c7;
+    --taille-cellule: 48px;
+
+    --epaisseur-bordure-cellule: 1px;
+    --epaisseur-padding-cellule: 2px;
+
+    --couleur-police: #ffffff;
+    --couleur-police-grille: #ffffff;
+    --couleur-bordure-grille: #ffffff;
+
+    --couleur-bien-place: #e7002a;
+    --couleur-mal-place: #ffbd00;
+
+    --couleur-non-trouve: rgb(112 112 112);
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    font-size: 32px;
+    text-align: center;
+    color: var(--couleur-police);
+}
+
+#grille {
+    margin-left: auto;
+    margin-right: auto;
+    /*background-color: var(--couleur-fond-grille);*/
+    min-height: calc(6 * var(--taille-cellule) + 12 * var(--epaisseur-bordure-cellule));;
+}
+
+.grille table {
+    border-spacing: 0;
+    background-color: var(--couleur-fond-grille);
+    margin: auto;
+
+    transform: scale(1.5);
+}
+
+table > tr {
+    vertical-align: middle;
+}
+
+.grille td {
+    width: calc(var(--taille-cellule) - 2 * var(--epaisseur-padding-cellule));
+    height: calc(var(--taille-cellule) - 2 * var(--epaisseur-padding-cellule));
+    text-align: center;
+    position: relative;
+    padding: var(--epaisseur-padding-cellule);
+    color: var(--couleur-police-grille);
+    border: 1px solid var(--couleur-bordure-grille);
+    z-index: 0;
+}
+
+.bien-place, .input-lettre.lettre-bien-trouve {
+    background-color: var(--couleur-bien-place)!important;
+}
+
+.mal-place, .input-lettre.lettre-mal-place {
+    background-color: var(--couleur-mal-place)
+}
+
+.non-trouve, .input-lettre.lettre-non-trouve {
+    color: var(--couleur-non-trouve);
+    border: 1px solid var(--couleur-non-trouve);
+}
+
+#input-area {
+    margin: 0.5em auto 2em;
+    width: calc(100% - 20px);
+    max-width: 500px;
+}
+
+.input-ligne {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.25em;
+    width: 100%;
+}
+
+.input-lettre {
+    font-size: 18px;
+    border: 1px solid var(--couleur-police);
+    border-radius: 5px;
+    user-select: none;
+    flex-grow: 1;
+    flex-shrink: 0;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+}
+
+.input-lettre:hover {
+    cursor: pointer;
+}
+
+.modal-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
+    color: black;
+    /*opacity: 0;*/
+}
+
+.modalperso {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 30px 50px;
+    width: 600px;
+    max-width: 100%;
+}
+
+.modalperso h1 {
+    margin: 0;
+}
+
+.modalperso p {
+    font-size: 20px;
+    opacity: 0.7;
+}
+
+pre {
+    margin: 0;
+    padding: 0;
+}

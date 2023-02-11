@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li><a href="{% url 'play' %}">Jouer</a></li>
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+            <li class="active"><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Administration - Suppresion du mot</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <h2>Êtes-vous sûr de vouloir supprimer le mot <span class="text-yellow font-weight-bold">{{ object.mot }}</span> ?</h2>
+        <p style="color:red; font-weight: bold">Attention, cette action est irréversible !</p>
+        <div style="display: flex; gap: 50px; margin: auto; width: fit-content">
+            <button class="btn btn-secondary" style="background-color: #FFC107; color: black; font-weight: bold" type="submit">Confirmer la suppresion</button>
+            <a class="btn btn-danger" style="font-weight: bold" href="{% url 'admin_list_mot' %}">Annuler</a>
+        </div>
+
+    </form>
+{% endblock %}

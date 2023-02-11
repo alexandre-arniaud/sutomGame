@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'public/css/game.css' %}">
+{% endblock %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            <li class="active"><a href="{% url 'play' %}">Jouer</a></li>
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+            <li><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <span id="motATrouver" style="display:none;">{{ mot }}</span>
+    <span id="idCurrentUser" style="display:none;">{{ user.id }}</span>
+
+    <div class="modal-container" id="modal-container">
+        <div class="modalperso">
+            <h1 id="state_win"></h1>
+            <p>Le mot à trouver était : <span id="word_to_find" style='font-weight: bold'></span></p>
+            <p>Résumé de ta partie - en <span id="nb_try" style='font-weight: bold'></span> essai(s) !</p>
+            <div style="display:flex; flex-direction: column">
+                <pre id="game-resume-r-1"></pre>
+                <pre id="game-resume-r-2"></pre>
+                <pre id="game-resume-r-3"></pre>
+                <pre id="game-resume-r-4"></pre>
+                <pre id="game-resume-r-5"></pre>
+                <pre id="game-resume-r-6"></pre>
+            </div>
+            <form action="" method="post">
+                {% csrf_token %}
+                <section style="display: none">
+                    {{ form }}
+                </section>
+                <button class="btn btn-primary" type="submit" id="submit">RETOUR A L'ACCUEIL</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div id="grille" class="grille" style="margin-top: 6em;"></div>
+
+    <div id="input-area" style="margin-top: 3em;">
+        <div class="input-ligne">
+            <div class="input-lettre" data-lettre="A">A</div>
+            <div class="input-lettre" data-lettre="Z">Z</div>
+            <div class="input-lettre" data-lettre="E">E</div>
+            <div class="input-lettre" data-lettre="R">R</div>
+            <div class="input-lettre" data-lettre="T">T</div>
+            <div class="input-lettre" data-lettre="Y">Y</div>
+            <div class="input-lettre" data-lettre="U">U</div>
+            <div class="input-lettre" data-lettre="I">I</div>
+            <div class="input-lettre" data-lettre="O">O</div>
+            <div class="input-lettre" data-lettre="P">P</div>
+        </div>
+        <div class="input-ligne">
+            <div class="input-lettre" data-lettre="Q">Q</div>
+            <div class="input-lettre" data-lettre="S">S</div>
+            <div class="input-lettre" data-lettre="D">D</div>
+            <div class="input-lettre" data-lettre="F">F</div>
+            <div class="input-lettre" data-lettre="G">G</div>
+            <div class="input-lettre" data-lettre="H">H</div>
+            <div class="input-lettre" data-lettre="J">J</div>
+            <div class="input-lettre" data-lettre="K">K</div>
+            <div class="input-lettre" data-lettre="L">L</div>
+            <div class="input-lettre" data-lettre="M">M</div>
+        </div>
+        <div class="input-ligne">
+            <div class="input-lettre" data-lettre="W">W</div>
+            <div class="input-lettre" data-lettre="X">X</div>
+            <div class="input-lettre" data-lettre="C">C</div>
+            <div class="input-lettre" data-lettre="V">V</div>
+            <div class="input-lettre" data-lettre="B">B</div>
+            <div class="input-lettre" data-lettre="N">N</div>
+            <div class="input-lettre" data-lettre="_effacer">⌫</div>
+            <div class="input-lettre input-lettre-entree" data-lettre="_entree">↲</div>
+        </div>
+    </div>
+    <script type="text/javascript" src="{% static 'public/js/game.js' %}"></script>
+{% endblock %}

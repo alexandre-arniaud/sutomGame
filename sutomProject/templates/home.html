@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li class="active"><a href="{% url 'home' %}">Accueil</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'play' %}">Jouer</a></li>
+        {% endif %}
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+                <li><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <section style="display: flex; width: 100%; gap: 2em; margin-top: 6em">
+        <div class="inner cover" style="width: 100%; padding-left: 5em; display: grid">
+            <img src="{% static 'public/sutom.png' %}" alt="logo" style="width: 200px; height: 200px; margin-bottom: 30px; border-radius: 15px">
+            <h1 class="cover-heading text-left">Redécouvrez le jeu emblématique de France Télévisions</h1>
+            <p class="lead text-left">Rejoignez les joueurs déjà présents et issez vous en haut du classement !</p>
+            <p class="lead" style="display: flex; justify-content: left; gap: 30px">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'play' %}" class="btn btn-lg btn-default btn-yellow" style="width: 38em; height: 3em; display: flex;
+    justify-content: center;
+    align-items: center;">JOUER</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-lg btn-default btn-yellow" style="height: 3em; display: flex;
+    justify-content: center;
+    align-items: center;">JE ME CONNECTE</a>
+                    <a href="{% url 'register' %}" class="btn btn-lg btn-default btn-red" style="height: 3em; display: flex;
+    justify-content: center;
+    align-items: center;">JE M'INSCRIS</a>
+                {% endif %}
+            </p>
+        </div>
+
+        <section style="display: flex; flex-direction: column; width: 100%; padding-right: 2em">
+            <div style="display: flex; z-index: 1000">
+                <h1>Meilleurs joueurs</h1>
+                <img src="{% static 'public/leaderboard.png' %}" alt="leaderboard" style="width: 64px; height: 64px; margin-left: 1em">
+            </div>
+
+            <div class="leaderboard-container" style="margin-top: 2em">
+                <section style="display: flex; flex-direction: column; justify-content: center; width: 80%; height: 100%; margin: auto">
+                    <div class="card" style="background-color: #FFC102; display: flex; justify-content: center; align-items: center; height: 40%; border-radius: 20px">
+                        <span class="ranking">#1</span>
+                        <img class="card" src="{% if items.0.user.profile.avatar.url == "/public/user.png" %} /public/avatars/user.png {% else %} {{ items.0.user.profile.avatar.url }} {% endif %}" alt="user" style="width: 64px; height: 64px; margin-top: 5px">
+                        <h2 style="font-weight: 700">{{ items.0.user.username|upper }}</h2>
+                        <h3 style="color: #444444">{{ items.0.total_points }} points</h3>
+                    </div>
+                    <section style="display: flex; justify-content: center; gap: 20px; height: 40%">
+                        <div class="card" style="width: 100%; background-color: #D4D4D4; display: flex; justify-content: center; align-items: center; border-radius: 20px">
+                            <span class="ranking">#2</span>
+                            <img class="card" src="{% if items.1.user.profile.avatar.url == "/public/user.png" %} /public/avatars/user.png {% else %} {{ items.1.user.profile.avatar.url }} {% endif %}" alt="user" style="width: 48px; height: 48px; margin-top: 5px">
+                            <h2 style="font-weight: 700">{{ items.1.user.username|upper }}</h2>
+                            <h3 style="color: #444444">{{ items.1.total_points }} points</h3>
+                        </div>
+                        <div class="card" style="width: 100%; background-color: #AA6624; display: flex; justify-content: center; align-items: center; border-radius: 20px    ">
+                            <span class="ranking">#3</span>
+                            <img class="card" src="{% if items.2.user.profile.avatar.url == "/public/user.png" %} /public/avatars/user.png {% else %} {{ items.2.user.profile.avatar.url }} {% endif %}" alt="user" style="width: 48px; height: 48px; margin-top: 5px">
+                            <h2 style="font-weight: 700">{{ items.2.user.username|upper }}</h2>
+                            <h3 style="color: #444444">{{ items.2.total_points }} points</h3>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </section>
+    </section>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}Sutom - Connexion{% endblock %}
+
+{% block content %}
+    <h1 class="text-white w-100 text-center mt-5" style="font-weight: 800; font-size: xxx-large">Connexion</h1>
+
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    <div class="card" style="background: none; border: none">
+        <div class="card-body">
+            <form action="" method="post" style="display: flex; flex-direction: column; align-items: center; gap: 50px">
+                {% csrf_token %}
+                <div class="form-floating">
+                    {{ form.username }}
+                    <label for="floatingInput" style="color: #333">{{ form.username.label }}</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.password }}
+                    <label for="floatingInput" style="color: #333">{{ form.password.label }}</label>
+                </div>
+
+                <button class="btn btn-primary mx-auto" style="display: flex; font-weight: 700" type="submit">SE CONNECTER</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
