@@ -23,7 +23,10 @@
                     <label for="floatingInput" style="color: #333">{{ form.password.label }}</label>
                 </div>
 
-                <button class="btn btn-primary mx-auto" style="display: flex; font-weight: 700" type="submit">SE CONNECTER</button>
+                <section style="display: flex; gap: 50px">
+                    <button class="btn btn-primary mx-auto" style="display: flex; align-items: center; justify-content: center; width: 8vw; height: 4vh; font-weight: 700" type="submit">SE CONNECTER</button>
+                    <a class="btn btn-danger" style="display: flex; align-items: center; justify-content: center; width: 8vw; height: 4vh; font-weight: 700" href="{% url 'home' %}">RETOUR</a>
+                </section>
             </form>
         </div>
     </div>
