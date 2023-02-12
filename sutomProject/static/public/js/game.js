@@ -36,19 +36,33 @@ function verifyChar(char, word, position){
     }
 }
 
+function countLetter(str, letter) {
+  return str.split("").reduce((acc, curr) => {
+    return curr === letter ? acc + 1 : acc;
+  }, 0);
+}
 function delayedLoop(index, indice, nombre_colonnes, nombre_lignes) {
     if (index < nombre_colonnes) {
         // On récupère la lettre de la ligne
         let letterLine = document.getElementsByTagName("tr")[indice].children.item(index).textContent.toUpperCase();
+        let currentTrElement = document.getElementsByTagName("tr")[indice].children.item(index);
 
         // Si la lettre de la ligne est dans le mot mais mal placée
         if (verifyChar(letterLine, motATrouver, index) === false) {
+
+            let listOccurenceLetter = Array.from(document.querySelectorAll("tr")[indice].querySelectorAll("td")).filter(td => td.textContent === letterLine.toUpperCase())
+            let currentPositioninListOccurenceLetter = listOccurenceLetter.indexOf(currentTrElement) + 1
+
+            let nbOccurenceLetter = listOccurenceLetter.length
+            let countLetterInWord = countLetter(motATrouver, letterLine);
             // On met la lettre en jaune
-            document.getElementsByTagName("tr")[indice].children.item(index).classList.add("mal-place");
-            for (let index = 0; index < document.querySelectorAll(".input-lettre").length; index++) {
-                if (document.querySelectorAll(".input-lettre")[index].textContent === letterLine) {
-                    document.querySelectorAll(".input-lettre")[index].classList.add("lettre-mal-place");
-                    break;
+            if (nbOccurenceLetter <= countLetterInWord || currentPositioninListOccurenceLetter <= countLetterInWord) {
+                document.getElementsByTagName("tr")[indice].children.item(index).classList.add("mal-place");
+                for (let index = 0; index < document.querySelectorAll(".input-lettre").length; index++) {
+                    if (document.querySelectorAll(".input-lettre")[index].textContent === letterLine) {
+                        document.querySelectorAll(".input-lettre")[index].classList.add("lettre-mal-place");
+                        break;
+                    }
                 }
             }
         }
@@ -194,8 +208,16 @@ document.addEventListener('click', (event) => {
                                         break;
                                     case 4: document.querySelector('[name=points]').value = 10;
                                         break;
-                                    default: document.querySelector('[name=points]').value = 0;
                                 }
+                            }
+                            else if (!win && i === nb_rows - 1) {
+                                document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
+                                document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
+                                document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
+                                document.querySelector("#modal-container").style.display = 'flex';
+                                document.querySelector('[name=is_win]').checked = false
+                                document.querySelector('[name=nb_try]').value = (i+1)
+                                document.querySelector('[name=points]').value = 0
                             }
                         }, 5000);
                     }
@@ -209,6 +231,14 @@ document.addEventListener('click', (event) => {
                             // Si on se trouve sur la derniere colonne de la ligne
                             if (j === nb_columns - 1) {
                                 // On passe la ligne en état (full_leter) qui permet de passer à la ligne suivante
+                                document.getElementsByTagName("tr")[i].classList.add("full_leter");
+                            }
+                            let array_full_row = [];
+                            for (let cases in document.getElementsByTagName("tr")[i].children) {
+                                let full_row = document.getElementsByTagName("tr")[i].children.item(cases).textContent !== '.';
+                                array_full_row.push(full_row);
+                            }
+                            if (array_full_row.includes(false) === false) {
                                 document.getElementsByTagName("tr")[i].classList.add("full_leter");
                             }
                             break;
@@ -316,8 +346,16 @@ document.addEventListener('keydown', (event) => {
                                         break;
                                     case 4: document.querySelector('[name=points]').value = 10;
                                         break;
-                                    default: document.querySelector('[name=points]').value = 0;
                                 }
+                            }
+                            else if (!win && i === nb_rows - 1) {
+                                document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
+                                document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
+                                document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
+                                document.querySelector("#modal-container").style.display = 'flex';
+                                document.querySelector('[name=is_win]').checked = false
+                                document.querySelector('[name=nb_try]').value = (i+1)
+                                document.querySelector('[name=points]').value = 0
                             }
                         }, 5000);
                     }
@@ -333,16 +371,13 @@ document.addEventListener('keydown', (event) => {
                                 // On passe la ligne en état (full_leter) qui permet de passer à la ligne suivante
                                 document.getElementsByTagName("tr")[i].classList.add("full_leter");
                             }
-                            let full_row = false;
+                            let array_full_row = [];
                             for (let cases in document.getElementsByTagName("tr")[i].children) {
-                                if (document.getElementsByTagName("tr")[i].children.item(cases).textContent === '.') {
-                                    break;
-                                } else {
-                                    full_row = true;
-                                }
-                                if (full_row) {
-                                    document.getElementsByTagName("tr")[i].classList.add("full_leter");
-                                }
+                                let full_row = document.getElementsByTagName("tr")[i].children.item(cases).textContent !== '.';
+                                array_full_row.push(full_row);
+                            }
+                            if (array_full_row.includes(false) === false) {
+                                document.getElementsByTagName("tr")[i].classList.add("full_leter");
                             }
                             break;
                         }
