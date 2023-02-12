@@ -10,7 +10,7 @@
             <li><a href="{% url 'play' %}">Jouer</a></li>
             <li><a href="{% url 'leaderboard' %}">Classement</a></li>
             {% if user.is_superuser %}<li><a href="#"> </a></li>
-            <li class="active"><a href="{% url 'admin_list_mot' %}">Admin - Liste des mots</a></li>{% endif %}
+                <li class="active"><a href="{% url 'admin_panel' %}">Panel d'administration</a></li>{% endif %}
         </ul>
     </nav>
 {% endblock %}

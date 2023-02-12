@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sutom - le jeu préféré des français{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul class="nav masthead-nav">
+            <li><a href="{% url 'home' %}">Accueil</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'play' %}">Jouer</a></li>
+            {% endif %}
+            <li><a href="{% url 'leaderboard' %}">Classement</a></li>
+            {% if user.is_superuser %}<li><a href="#"> </a></li>
+                <li class="active"><a href="{% url 'admin_panel' %}">Panel d'administration</a></li>{% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <h1>Panel d'administration</h1>
+    <section style="display: flex; width: 100%; gap: 2em; margin-top: 10em">
+        <div class="leaderboard-container" style="margin: auto; width: 30%; height: 18em; display: flex; justify-content: center; align-items: center; flex-direction: column">
+            <span style="font-weight: 700; font-size: 6rem">{{ count_users }}</span>
+            <span style="font-weight: 500; font-size: 2rem">joueurs inscrits</span>
+        </div>
+
+        <div class="leaderboard-container" style="margin: auto; width: 30%; height: 18em; display: flex; justify-content: center; align-items: center; flex-direction: column">
+            <span style="font-weight: 700; font-size: 6rem">{{ count_played_games }}</span>
+            <span style="font-weight: 500; font-size: 2rem">parties jouées</span>
+        </div>
+    </section>
+    <section style="display: flex; width: 100%; gap: 2em; margin-top: 5em">
+        <div class="leaderboard-container" style="margin: auto; width: 30%; height: 18em; display: flex; justify-content: center; align-items: center; flex-direction: column">
+            <span style="font-weight: 700; font-size: 6rem">{{ count_words }}</span>
+            <span style="font-weight: 500; font-size: 2rem">mots crées</span>
+
+            <a class="btn btn-primary" href="{% url 'admin_list_mot' %}">ACCÉDER A LA LISTE DE MOTS</a>
+        </div>
+
+        <div class="leaderboard-container" style="margin: auto; width: 30%; height: 18em; display: flex; justify-content: center; align-items: center; flex-direction: column">
+            <span style="font-weight: 700; font-size: 6rem">{{ all_total_points }}</span>
+            <span style="font-weight: 500; font-size: 2rem">points gagnés</span>
+        </div>
+    </section>
+{% endblock %}

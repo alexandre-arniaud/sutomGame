@@ -29,7 +29,7 @@ a:hover {
 html,
 body {
   height: 100%;
-    background-color: #333;
+  background-color: #333;
 }
 body {
   color: #fff;
@@ -138,8 +138,8 @@ svg {
 
   border-radius: 15px;
   background: #444444;
-  box-shadow:  20px 20px 60px #444444,
-  -20px -20px 60px #3c3c3c;
+  box-shadow: 15px 15px 30px rgb(25, 25, 25),
+  -15px -15px 30px rgb(60, 60, 60);
 
   margin-right: 4em;
 }

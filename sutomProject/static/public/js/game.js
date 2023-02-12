@@ -37,9 +37,9 @@ function verifyChar(char, word, position){
 }
 
 function countLetter(str, letter) {
-  return str.split("").reduce((acc, curr) => {
-    return curr === letter ? acc + 1 : acc;
-  }, 0);
+    return str.split("").reduce((acc, curr) => {
+        return curr === letter ? acc + 1 : acc;
+    }, 0);
 }
 function delayedLoop(index, indice, nombre_colonnes, nombre_lignes) {
     if (index < nombre_colonnes) {
@@ -111,7 +111,9 @@ function delayedLoop(index, indice, nombre_colonnes, nombre_lignes) {
 
 
         document.getElementsByTagName("tr")[indice].classList.add("not_playable_row");
-        document.getElementsByTagName("tr")[indice + 1].classList.remove("not_playable_row");
+        if (indice + 1 < nombre_lignes) {
+            document.getElementsByTagName("tr")[indice + 1].classList.remove("not_playable_row");
+        }
     }
 }
 
@@ -163,7 +165,7 @@ document.addEventListener('click', (event) => {
                                 document.querySelector("#state_win").textContent = "Bravo, tu as gagné !";
                                 document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
                                 document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
-                                if (row < 7) {
+                                if (row <= 7) {
                                     for (let h = 1; h < nb_columns + 1; h++) {
                                         let span = document.createElement("span");
                                         if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("bien-place")) {
@@ -209,16 +211,50 @@ document.addEventListener('click', (event) => {
                                     case 4: document.querySelector('[name=points]').value = 10;
                                         break;
                                 }
+                            } else {
+                                if (i === nb_rows - 1) {
+
+                                    let array = []
+                                    document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
+                                    document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
+                                    document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
+                                    if (row <= 7) {
+                                        for (let h = 1; h < nb_columns + 1; h++) {
+                                            let span = document.createElement("span");
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("bien-place")) {
+                                                span.textContent = "🟥";
+                                                array.push("🟥")
+                                            }
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("mal-place")) {
+                                                span.textContent = "🟡";
+                                                array.push("🟡");
+                                            }
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("non-trouve") ||
+                                                document.getElementsByTagName("tr")[row].children.item(h - 1).classList.length === 0) {
+                                                span.textContent = "🟦";
+                                                array.push("🟦");
+                                            }
+                                            document.querySelector("#game-resume-r-" + (j)).appendChild(span);
+                                        }
+                                        console.log(array)
+                                        row++
+                                        document.querySelector("#modal-container").style.display = 'flex';
+                                    }
+
+                                    for (let k = 0; k < document.querySelectorAll("option").length ; k++) {
+                                        if (document.querySelectorAll("option")[k].text === motATrouver.toUpperCase()) {
+                                            // console.log(document.querySelectorAll("option")[k].value)
+                                            document.querySelector("#id_word").value = document.querySelectorAll("option")[k].value;
+                                        }
+                                    }
+
+                                    document.querySelector('#id_user').value = document.querySelector('#idCurrentUser').textContent
+                                    document.querySelector('[name=nb_try]').value = (i+1)
+                                    document.querySelector('[name=is_win]').checked = false
+                                    document.querySelector('[name=points]').value = 0;
+                                }
                             }
-                            else if (!win && i === nb_rows - 1) {
-                                document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
-                                document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
-                                document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
-                                document.querySelector("#modal-container").style.display = 'flex';
-                                document.querySelector('[name=is_win]').checked = false
-                                document.querySelector('[name=nb_try]').value = (i+1)
-                                document.querySelector('[name=points]').value = 0
-                            }
+
                         }, 5000);
                     }
 
@@ -301,7 +337,7 @@ document.addEventListener('keydown', (event) => {
                                 document.querySelector("#state_win").textContent = "Bravo, tu as gagné !";
                                 document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
                                 document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
-                                if (row < 7) {
+                                if (row <= 7) {
                                     for (let h = 1; h < nb_columns + 1; h++) {
                                         let span = document.createElement("span");
                                         if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("bien-place")) {
@@ -347,16 +383,49 @@ document.addEventListener('keydown', (event) => {
                                     case 4: document.querySelector('[name=points]').value = 10;
                                         break;
                                 }
+                            } else {
+                                if (i === nb_rows - 1) {
+                                    let array = []
+                                    document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
+                                    document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
+                                    document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
+                                    if (row <= 7) {
+                                        for (let h = 1; h < nb_columns + 1; h++) {
+                                            let span = document.createElement("span");
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("bien-place")) {
+                                                span.textContent = "🟥";
+                                                array.push("🟥")
+                                            }
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("mal-place")) {
+                                                span.textContent = "🟡";
+                                                array.push("🟡");
+                                            }
+                                            if (document.getElementsByTagName("tr")[row].children.item(h - 1).classList.contains("non-trouve") ||
+                                                document.getElementsByTagName("tr")[row].children.item(h - 1).classList.length === 0) {
+                                                span.textContent = "🟦";
+                                                array.push("🟦");
+                                            }
+                                            document.querySelector("#game-resume-r-" + (j)).appendChild(span);
+                                        }
+                                        console.log(array)
+                                        row++
+                                        document.querySelector("#modal-container").style.display = 'flex';
+                                    }
+
+                                    for (let k = 0; k < document.querySelectorAll("option").length ; k++) {
+                                        if (document.querySelectorAll("option")[k].text === motATrouver.toUpperCase()) {
+                                            // console.log(document.querySelectorAll("option")[k].value)
+                                            document.querySelector("#id_word").value = document.querySelectorAll("option")[k].value;
+                                        }
+                                    }
+
+                                    document.querySelector('#id_user').value = document.querySelector('#idCurrentUser').textContent
+                                    document.querySelector('[name=nb_try]').value = (i+1)
+                                    document.querySelector('[name=is_win]').checked = false
+                                    document.querySelector('[name=points]').value = 0;
+                                }
                             }
-                            else if (!win && i === nb_rows - 1) {
-                                document.querySelector("#state_win").textContent = "Dommage, tu as perdu !";
-                                document.querySelector("#word_to_find").innerHTML = "'" + motATrouver + "'";
-                                document.querySelector("#nb_try").textContent = "'" + (i + 1) + "'";
-                                document.querySelector("#modal-container").style.display = 'flex';
-                                document.querySelector('[name=is_win]').checked = false
-                                document.querySelector('[name=nb_try]').value = (i+1)
-                                document.querySelector('[name=points]').value = 0
-                            }
+
                         }, 5000);
                     }
 

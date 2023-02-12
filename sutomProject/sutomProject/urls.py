@@ -19,6 +19,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
+from sutomGame.views.admin.panel import AdminPanelView
 from sutomGame.views.classement.classement import ClassementListView
 from sutomGame.views.game.game import GameView
 from sutomGame.views.index import IndexView
@@ -32,6 +33,7 @@ from sutomGame.views.register.register_form import RegisterFormView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('admin_panel/', AdminPanelView.as_view(), name='admin_panel'),
     path('admin_words/', MotListView.as_view(), name='admin_list_mot'),
     path('admin_words/create', MotCreateView.as_view(), name='admin_list_mot_create'),
     path('admin_words/update/<int:pk>', MotUpdateView.as_view(), name='admin_list_mot_update'),
